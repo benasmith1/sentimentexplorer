@@ -76,7 +76,7 @@ def get_color(query):
     # Parse the response content
     try:
         response_text = response.choices[0].message.content.strip()
-        st.write(f"Response Text: {response_text}")
+        #st.write(f"Response Text: {response_text}")
         colors = response_text.split(" ")  # Remove quotes and split into a list
         response_text = json5.loads(response_text)
         if len(response_text) == 2:
