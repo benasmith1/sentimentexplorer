@@ -247,6 +247,6 @@ if submit_button:
     for sentiment, urls in sentiment_bins.items():
         if urls:
             words = get_popular_words(sentiment, urls)
-            st.write(f"\nPopular phrases for {sentiment} sentiment:\n{words}")
+            st.write(f"\n**Popular phrases for {sentiment} sentiment:**\n{words}")
         else:
             st.write(f"\nNo URLs for {sentiment} sentiment.")
