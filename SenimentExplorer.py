@@ -21,6 +21,9 @@ from botocore.exceptions import ClientError
 
 import json
 
+# Connect to OpenAI and Analyze Popular Words
+client = openai.Client(api_key=st.secrets["openaikey"])
+
 
 with st.form("Form entry"):
     query = st.text_input("Search Bar", value="Spotify Wrapped Opinions")
@@ -220,11 +223,8 @@ if submit_button:
             sentiment_bins["Neutral"].append(url)
 
 
-    # Step 2: Connect to OpenAI and Analyze Popular Words
-    client = openai.Client(api_key=st.secrets["openaikey"])
 
-
-    # Step 3: Loop through each sentiment and print the results
+    # Step 2: Loop through each sentiment and print the results
     for sentiment, urls in sentiment_bins.items():
         if urls:
             words = get_popular_words(sentiment, urls)
