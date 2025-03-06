@@ -50,6 +50,7 @@ if submit_button:
     my_bar = st.progress(0, text="Fetching search results...")
 
     search_results = search(query, num_results=num_results)
+    st.write(search_results)
 
     progress = 3
 
