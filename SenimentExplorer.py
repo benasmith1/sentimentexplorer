@@ -19,7 +19,7 @@ import pandas as pd
 import boto3
 from botocore.exceptions import ClientError
 
-import json
+import json5
 
 # Connect to OpenAI and Analyze Popular Words
 client = openai.Client(api_key=st.secrets["openaikey"])
@@ -78,6 +78,7 @@ def get_color(query):
         response_text = response.choices[0].message.content.strip()
         st.write(f"Response Text: {response_text}")
         colors = response_text.split(" ")  # Remove quotes and split into a list
+        response_text = json5.loads(response_text)
         if len(response_text) == 2:
             return response_text
         else:
