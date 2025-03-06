@@ -76,8 +76,12 @@ def get_color(query):
     # Parse the response content
     try:
         response_text = response.choices[0].message.content.strip()
+        print(f"Response Text: {response_text}")
         colors = response_text.split(" ")  # Remove quotes and split into a list
-        return colors
+        if len(colors) == 2:
+            return colors
+        else:
+            return ["#0ddab2", "#0ffbcc"]
     except:
         return ["#0ddab2", "#0ffbcc"]  # Default fallback
 
