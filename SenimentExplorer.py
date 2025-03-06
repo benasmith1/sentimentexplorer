@@ -32,7 +32,8 @@ st.markdown("""
         - Performing a google search for your input query  
         - Parsing each webpage for its overall sentiment  
         - Using OpenAI to summarize common likes and dislikes within these webpages  """)
-st.markdown("""Specify the number of search results you would like to return. More results gives more accurate information but takes longer to parse.""")
+st.markdown("""Specify the number of search results you would like to return. More results gives more accurate information but takes longer to parse. Searching 
+            for 50 results should take approximately 40 seconds.""")
 
 with st.form("Form entry"):
     query = st.text_input("Search Bar", value="Spotify Wrapped Opinions")
@@ -114,10 +115,9 @@ if submit_button:
         sentiment = get_sentiment(url)
         if sentiment != "Failed":
             sentiment_list.append(sentiment)
-        progress += round(100/num_results)
+        progress += round(97/num_results)
 
-
-    my_bar.empty()
+    my_bar.progress(min(progress,98), text="Creating Graph...")
 
     colors = get_color(query)
 
@@ -211,6 +211,9 @@ if submit_button:
 
     st.bokeh_chart(layout, use_container_width=True)
 
+    my_bar.progress(min(progress,100), text="Creating Graph...")
+
+    my_bar.empty()
 
     # # Save and show
     # output_file("SentimentsGraph.html")
