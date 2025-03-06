@@ -28,7 +28,6 @@ with st.form("Form entry"):
 
 
 def get_sentiment(url):
-    sentiment_list = []
     try:
         article = Article(url)
         article.download()
@@ -47,15 +46,18 @@ def get_sentiment(url):
 
 
 if submit_button:
+
+    # Search query
     my_bar = st.progress(0, text="Fetching search results...")
 
     search_results = search(query, num_results=num_results)
-    st.write(search_results)
+
 
     progress = 3
 
     sentiment_list = []
 
+    # get sentiments
     for url in search_results:
         my_bar.progress(min(progress,100), text="Analyzing sentiment of webpages...")
         sentiment = get_sentiment(url)
