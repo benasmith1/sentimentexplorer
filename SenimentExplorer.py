@@ -109,6 +109,8 @@ if submit_button:
 
     my_bar.empty()
 
+    colors = get_color(query)
+
     # Extract compound values and URLs
     compounds = [entry[1]['compound'] for entry in sentiment_list]
     urls = [entry[0] for entry in sentiment_list]
@@ -166,9 +168,9 @@ if submit_button:
         top='y', 
         width=0.9, 
         source=source, 
-        color=get_color(query)[1], 
+        color=colors[1], 
         line_color='black', 
-        selection_color=get_color(query)[0]  # Highlight when clicked
+        selection_color=colors[0]  # Highlight when clicked
     )
 
     # Hover effect
