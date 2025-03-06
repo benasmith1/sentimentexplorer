@@ -57,24 +57,26 @@ def get_popular_words(sentiment_name, urls):
     )
     return response.choices[0].message.content.strip()
 
-# def get_color(query):
-#     prompt = (
-#         f"For this query: {query}. There should be a company or product associated with it. "
-#         f"If there is a color associated with this product/company, return it along with a lighter shade, both in hex strings, in this form: [\"#original_color\", \"#lighter_color\"]. "
-#         f"If no color is associated, return: [\"#0ddab2\", \"#0ffbcc\"]. "
-#         f"Respond with only the array and nothing else."
-#     )
-#     response = client.chat.completions.create(
-#         model="gpt-3.5-turbo",
-#         messages=[{"role": "user", "content": prompt}],
-#         temperature=0.7
-#     )
+def get_color(query):
+    prompt = (
+        f"For this query: {query}. There should be a company or product associated with it. "
+        f"If there is a color associated with this product/company, return it along with a lighter shade, both in hex strings, in this form: \"\"#original_color\", \"#lighter_color\"\". "
+        f"If no color is associated, return: [\"#0ddab2\", \"#0ffbcc\"]. "
+        f"Respond with only the array and nothing else."
+    )
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.7
+    )
     
-#     # Parse the response content as JSON
-#     try:
-#         return json.loads(response.choices[0].message.content.strip())
-#     except json.JSONDecodeError:
-#         return ["#0ddab2", "#0ffbcc"]
+    # Parse the response content
+    try:
+        response_text = response.choices[0].message.content.strip()
+        colors = response_text.replace('"', '').split(", ")  # Remove quotes and split into a list
+        return colors
+    except:
+        return ["#0ddab2", "#0ffbcc"]  # Default fallback
 
 
 if submit_button:
@@ -157,9 +159,9 @@ if submit_button:
         top='y', 
         width=0.9, 
         source=source, 
-        color="#0ddab2", 
+        color=get_color(query)[1], 
         line_color='black', 
-        selection_color="#0ffbcc"  # Highlight when clicked
+        selection_color=get_color(query)[0]  # Highlight when clicked
     )
 
     # Hover effect
