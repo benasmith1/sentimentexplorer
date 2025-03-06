@@ -242,12 +242,17 @@ if submit_button:
             sentiment_bins["Neutral"].append(url)
 
 
+    col1, col2, col3 = st.columns([1,1,1])
 
+    cols = [col1, col2, col3]
+    col = 1
     # Step 2: Loop through each sentiment and print the results
     for sentiment, urls in sentiment_bins.items():
-        st.header(f"\nPopular phrases for {sentiment} sentiment:")
-        if urls:
-            words = get_popular_words(sentiment, urls)
-            st.write(f"{words}")
-        else:
-            st.write(f"\nNo URLs for {sentiment} sentiment.")
+        with cols[col]:
+            st.header(f"\nPopular phrases for {sentiment} sentiment:")
+            if urls:
+                words = get_popular_words(sentiment, urls)
+                st.write(f"{words}")
+            else:
+                st.write(f"\nNo URLs for {sentiment} sentiment.")
+        col += 1
