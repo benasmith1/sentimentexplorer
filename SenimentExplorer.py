@@ -63,8 +63,8 @@ def get_popular_words(sentiment_name, urls):
 def get_color(query):
     prompt = (
         f"For this query: {query}. There should be a company or product associated with it. "
-        f"If there is a color associated with this product/company, return it along with a lighter shade, both in hex strings, in this form: \"\"#original_color\", \"#lighter_color\"\". "
-        f"If no color is associated, return: [\"#0ddab2\", \"#0ffbcc\"]. "
+        f"If there is a color associated with this product/company, return it along with a lighter shade, both in hex strings, in this form: \"#original_color #lighter_color\". "
+        f"If no color is associated, return: \"#0ddab2 #0ffbcc\" "
         f"Respond with only the array and nothing else."
     )
     response = client.chat.completions.create(
