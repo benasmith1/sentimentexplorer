@@ -156,15 +156,18 @@ if submit_button:
     # Layout: Chart + Sidebar
     layout = row(p, sidebar)
 
-    # Save and show
-    output_file("SentimentsGraph.html")
-    save(layout)
-
-    with open('SentimentsGraph.html', 'r', encoding='utf-8') as file:
-        sentiment_graph_data = file.read()
+    st.bokeh_chart(layout, use_container_width=True)
 
 
-    st.components.v1.html(sentiment_graph_data, height=650, width=1500)
+    # # Save and show
+    # output_file("SentimentsGraph.html")
+    # save(layout)
+
+    # with open('SentimentsGraph.html', 'r', encoding='utf-8') as file:
+    #     sentiment_graph_data = file.read()
+
+
+    # st.components.v1.html(sentiment_graph_data, height=650, width=1500)
 
     #st.write(sentiment_list)
 
