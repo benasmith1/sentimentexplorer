@@ -125,9 +125,9 @@ if submit_button:
         top='y', 
         width=0.9, 
         source=source, 
-        color='#ac84fc', 
+        color='#green', 
         line_color='black', 
-        selection_color='#9d6cff'  # Highlight when clicked
+        selection_color='#limegreen'  # Highlight when clicked
     )
 
     # Hover effect
