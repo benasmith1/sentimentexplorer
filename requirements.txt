@@ -1,0 +1,15 @@
+googlesearch
+newspaper
+vaderSentiment
+openai
+
+bokeh
+
+streamlit
+
+numpy
+
+pandas
+
+boto3
+botocore
