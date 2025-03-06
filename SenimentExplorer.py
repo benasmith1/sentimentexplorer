@@ -245,8 +245,9 @@ if submit_button:
 
     # Step 2: Loop through each sentiment and print the results
     for sentiment, urls in sentiment_bins.items():
+        st.header(f"\nPopular phrases for {sentiment} sentiment:")
         if urls:
             words = get_popular_words(sentiment, urls)
-            st.write(f"\n**Popular phrases for {sentiment} sentiment:**\n{words}")
+            st.write(f"{words}")
         else:
             st.write(f"\nNo URLs for {sentiment} sentiment.")
