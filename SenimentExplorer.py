@@ -26,12 +26,14 @@ client = openai.Client(api_key=st.secrets["openaikey"])
 
 st.header("Sentiment Explorer 🔎 😃")
 
-st.markdown("""Find out what people think about a company or product! To explore, search the company or product in the search bar below.  
-        The app works by:  
-        - Performing a google search for your input query  
+st.markdown("""Find out what people think about a company or product! To explore, search the company or product in the search bar below.  """)
+st.write("")
+st.markdown("""The app works by:  """)
+st.write("")
+st.markdown("""- Performing a google search for your input query  
         - Parsing each webpage for its overall sentiment  
-        - Using OpenAI to summarize common likes and dislikes within these webpages  
-        Specify the number of search results you would like to return. More results gives more accurate information but takes longer to parse.""")
+        - Using OpenAI to summarize common likes and dislikes within these webpages  """)
+st.markdown("""Specify the number of search results you would like to return. More results gives more accurate information but takes longer to parse.""")
 
 with st.form("Form entry"):
     query = st.text_input("Search Bar", value="Spotify Wrapped Opinions")
