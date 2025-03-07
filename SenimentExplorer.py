@@ -20,6 +20,7 @@ import boto3
 from botocore.exceptions import ClientError
 
 import json5
+from multiprocessing import Pool
 
 # Connect to OpenAI and Analyze Popular Words
 client = openai.Client(api_key=st.secrets["openaikey"])
@@ -109,12 +110,11 @@ if submit_button:
     sentiment_list = []
 
     # get sentiments
-    for url in search_results:
-        my_bar.progress(min(progress,98), text="Analyzing sentiment of webpages...")
-        sentiment = get_sentiment(url)
-        if sentiment != "Failed":
-            sentiment_list.append(sentiment)
-        progress += round(97/num_results)
+    my_bar.progress(min(progress,98), text="Analyzing sentiment of webpages...")
+    if __name__ == '__main__':
+        with Pool(7) as p:  # Adjust the number of processes as needed
+            sentiment_list = p.map(get_sentiment, search_results)
+        sentiment_list = [x for x in sentiment_list if x != "Failed"] #removes fails
 
     my_bar.progress(min(progress,98), text="Creating Graph...")
 
