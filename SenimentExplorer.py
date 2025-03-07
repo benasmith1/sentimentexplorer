@@ -165,8 +165,9 @@ if submit_button:
     sidebar = Div(
         text="<b>Click a bar to see URLs here</b>", 
         width=400, 
-        height=600, 
+        #height=600, 
         style={
+            'max-height': '600px',
             'overflow-y': 'auto', 
             'border': '1px solid black', 
             'padding': '10px'
