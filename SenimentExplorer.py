@@ -35,7 +35,7 @@ st.markdown("""
         - Using OpenAI to summarize common likes and dislikes within these webpages  """)
 st.markdown("""Specify the number of search results you would like to return. More results gives more accurate information but takes longer to parse. Searching 
             for 50 results should take approximately 10 seconds.""")
-st.markdown("""Try out the following example to see opinios about Spotify Wrapped! Including the word \"Opinions\" in the search helps avoid returning promotional webpages.
+st.markdown("""Try out the following example to see opinions about Spotify Wrapped! Including the word \"Opinions\" in the search helps avoid returning promotional webpages.
             You might also try \"Netflix Opinions\" or \"Waymo Opinions\"""")
 
 with st.form("Form entry"):
