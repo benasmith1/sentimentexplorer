@@ -34,11 +34,12 @@ st.markdown("""
         - Parsing each webpage for its overall sentiment  
         - Using OpenAI to summarize common likes and dislikes within these webpages  """)
 st.markdown("""Specify the number of search results you would like to return. More results gives more accurate information but takes longer to parse. Searching 
-            for 50 results should take approximately 20 seconds.""")
+            for 50 results should take approximately 10 seconds.""")
+st.markdown("""Try out the following example to see opinios about Spotify Wrapped! Including the word \"Opinions\" in the search helps avoid returning promotional webpages """)
 
 with st.form("Form entry"):
     query = st.text_input("Search Bar", value="Spotify Wrapped Opinions")
-    num_results = st.number_input("Number of search results", min_value=10, max_value=100, value=30)
+    num_results = st.number_input("Number of search results", min_value=10, max_value=100, value=50)
     submit_button = st.form_submit_button("Search")
 
 
