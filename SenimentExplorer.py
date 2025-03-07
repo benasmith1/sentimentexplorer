@@ -256,3 +256,14 @@ if submit_button:
         else:
             st.write(f"\nNo URLs for {sentiment} sentiment.")
         # col += 1
+
+# Add a footer
+st.markdown(
+    """
+    <hr>
+    <p style = "text-align: center; color: #777; font-size: 14px; font-family: Arial, sans-serif;">
+    Made with ❤️ by Bena Smith.
+    </p>
+    """,
+    unsafe_allow_html = True,
+)
