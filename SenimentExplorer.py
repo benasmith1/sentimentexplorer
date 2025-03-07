@@ -258,11 +258,11 @@ if submit_button:
             words_dict[sentiment] = f"{get_popular_words(sentiment, urls)}"
         else:
             words_dict[sentiment] = f"\nNo URLs for {sentiment} sentiment."
-        my_bar_2 = st.progress(progress, text="Getting popular phrases...")
+        my_bar_2.progress(progress, text="Getting popular phrases...")
         progress += 25
 
         # col += 1
-    my_bar.empty()
+    my_bar_2.empty()
 
     for sentiment, words in words_dict.items():
         st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: </h3>", unsafe_allow_html=True)
