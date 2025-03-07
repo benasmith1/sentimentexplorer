@@ -115,11 +115,11 @@ if submit_button:
             #sentiment_list = p.map(get_sentiment, search_results)
             for result in p.imap_unordered(get_sentiment, search_results):
                 sentiment_list.append(result)
-                my_bar.progress(min(progress,98), text="Analyzing sentiment of webpages...")
+                my_bar.progress(min(progress,95), text="Analyzing sentiment of webpages...")
                 progress += round(num_results/8)
         sentiment_list = [x for x in sentiment_list if x != "Failed"] #removes fails
 
-    my_bar.progress(min(progress,98), text="Creating Graph...")
+    my_bar.progress(min(progress,95), text="Creating Graph...")
 
     colors = get_color(query)
 
