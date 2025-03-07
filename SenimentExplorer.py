@@ -117,9 +117,10 @@ if submit_button:
                 sentiment_list.append(result)
                 my_bar.progress(min(progress,95), text="Analyzing sentiment of webpages...")
                 progress += round(num_results/8)
-        sentiment_list = [x for x in sentiment_list if x != "Failed"] #removes fails
 
     my_bar.progress(min(progress,95), text="Creating Graph...")
+    sentiment_list = [x for x in sentiment_list if x != "Failed"] #removes fails
+
 
     colors = get_color(query)
 
