@@ -110,7 +110,7 @@ if submit_button:
 
     # get sentiments
     for url in search_results:
-        my_bar.progress(min(progress,100), text="Analyzing sentiment of webpages...")
+        my_bar.progress(min(progress,98), text="Analyzing sentiment of webpages...")
         sentiment = get_sentiment(url)
         if sentiment != "Failed":
             sentiment_list.append(sentiment)
