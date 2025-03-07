@@ -34,7 +34,7 @@ st.markdown("""
         - Parsing each webpage for its overall sentiment  
         - Using OpenAI to summarize common likes and dislikes within these webpages  """)
 st.markdown("""Specify the number of search results you would like to return. More results gives more accurate information but takes longer to parse. Searching 
-            for 50 results should take approximately 40 seconds.""")
+            for 50 results should take approximately 20 seconds.""")
 
 with st.form("Form entry"):
     query = st.text_input("Search Bar", value="Spotify Wrapped Opinions")
@@ -101,7 +101,7 @@ def get_color(query):
 if submit_button:
 
     # Search query
-    my_bar = st.progress(0, text="Fetching search results...")
+    my_bar = st.progress(7, text="Fetching search results...")
 
     search_results = search(query, num_results=num_results)
 
@@ -112,9 +112,11 @@ if submit_button:
     # get sentiments
     if __name__ == '__main__':
         with Pool(7) as p:  # Adjust the number of processes as needed
-            sentiment_list = p.map(get_sentiment, search_results)
-            my_bar.progress(min(progress,98), text="Analyzing sentiment of webpages...")
-            progress += round(num_results/8)
+            #sentiment_list = p.map(get_sentiment, search_results)
+            for result in p.imap_unordered(get_sentiment, search_results):
+                sentiment_list.append(result)
+                my_bar.progress(min(progress,98), text="Analyzing sentiment of webpages...")
+                progress += round(num_results/8)
         sentiment_list = [x for x in sentiment_list if x != "Failed"] #removes fails
 
     my_bar.progress(min(progress,98), text="Creating Graph...")
