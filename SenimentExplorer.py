@@ -104,7 +104,6 @@ if submit_button:
 
     search_results = search(query, num_results=num_results)
 
-
     progress = 3
 
     sentiment_list = []
@@ -228,6 +227,10 @@ if submit_button:
     #st.write(sentiment_list)
 
 
+    # get popular words
+    my_bar = st.progress(0, text="Getting popular phrases...")
+    search_results = search(query, num_results=num_results)
+    progress = 3
 
 
     # Step 1: Group URLs by Sentiment
@@ -247,15 +250,20 @@ if submit_button:
     # cols = [col1, col2, col3]
     # col = 0
     # Step 2: Loop through each sentiment and print the results
+
+    words_dict = {}
+
     for sentiment, urls in sentiment_bins.items():
         # with cols[col]:
-        st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: </h3>", unsafe_allow_html=True)
         if urls:
-            words = get_popular_words(sentiment, urls)
-            st.write(f"{words}")
+            words_dict[sentiment] = f"{get_popular_words(sentiment, urls)}"
         else:
-            st.write(f"\nNo URLs for {sentiment} sentiment.")
+            words_dict[sentiment] = f"\nNo URLs for {sentiment} sentiment."
         # col += 1
+
+    for sentiment, words in words_dict:
+        st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: </h3>", unsafe_allow_html=True)
+        st.write(f"{words}")
 
 # Add a footer
 st.markdown(
