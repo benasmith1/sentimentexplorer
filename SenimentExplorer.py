@@ -64,7 +64,12 @@ def get_popular_words(sentiment_name, urls):
     # Ask OpenAI to find popular words from URLs.
     prompt = (
         f"Here are some websites with {sentiment_name} sentiment: {', '.join(urls)}. "
-        f"What are 10 popular phrases found in these websites that may explain this sentiment? Only list phrases that have to do with {query}. I want to know the reasons the article writers are expressing the sentiment. Don't just say: \"negative or positive sentiment about..\", give concrete examples. These don't need to be but will hopefully tell us what {query} can improve upon or what they are doing correctly. Make sure to select quotes/ paraphrasing from a range of these websites and not just a couple. List the phrases with bullet points but don't inlude the url."
+        f"""What are 10 popular phrases found in these websites that may explain this sentiment? 
+        Only list phrases that have to do with {query} and only list phrases with a {sentiment} sentiment. 
+        I want to know the reasons the article writers are expressing the sentiment. Don't just say: \"negative or positive sentiment about..\", 
+        give concrete examples. These don't need to be but will hopefully give actionable insights for {query}.
+        Make sure to select quotes/ paraphrasing from a range of these websites and not just a couple. List the phrases with bullet 
+        points but don't inlude the url or source."""
     )
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
