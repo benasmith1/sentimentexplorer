@@ -37,7 +37,7 @@ st.markdown("""Specify the number of search results you would like to return. Mo
 
 with st.form("Form entry"):
     query = st.text_input("Search Bar", value="Spotify Wrapped Opinions")
-    num_results = st.number_input("Number of search results", min_value=10, max_value=100, value=50)
+    num_results = st.number_input("Number of search results", min_value=10, max_value=100, value=30)
     submit_button = st.form_submit_button("Search")
 
 
