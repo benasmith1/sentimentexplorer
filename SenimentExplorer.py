@@ -229,7 +229,6 @@ if submit_button:
 
     # get popular words
     my_bar = st.progress(0, text="Getting popular phrases...")
-    search_results = search(query, num_results=num_results)
     progress = 3
 
 
@@ -252,16 +251,19 @@ if submit_button:
     # Step 2: Loop through each sentiment and print the results
 
     words_dict = {}
-
+    progress =17
     for sentiment, urls in sentiment_bins.items():
         # with cols[col]:
         if urls:
             words_dict[sentiment] = f"{get_popular_words(sentiment, urls)}"
         else:
             words_dict[sentiment] = f"\nNo URLs for {sentiment} sentiment."
+        my_bar = st.progress(progress, text="Getting popular phrases...")
+        progress += 26.5
+
         # col += 1
 
-    for sentiment, words in words_dict:
+    for sentiment, words in words_dict.items():
         st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: </h3>", unsafe_allow_html=True)
         st.write(f"{words}")
 
