@@ -110,10 +110,11 @@ if submit_button:
     sentiment_list = []
 
     # get sentiments
-    my_bar.progress(min(progress,98), text="Analyzing sentiment of webpages...")
     if __name__ == '__main__':
         with Pool(7) as p:  # Adjust the number of processes as needed
             sentiment_list = p.map(get_sentiment, search_results)
+            my_bar.progress(min(progress,98), text="Analyzing sentiment of webpages...")
+            progress += num_results/8
         sentiment_list = [x for x in sentiment_list if x != "Failed"] #removes fails
 
     my_bar.progress(min(progress,98), text="Creating Graph...")
