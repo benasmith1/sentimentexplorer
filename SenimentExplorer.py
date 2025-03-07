@@ -242,17 +242,17 @@ if submit_button:
             sentiment_bins["Neutral"].append(url)
 
 
-    col1, col2, col3 = st.columns([1,1,1])
+    # col1, col2, col3 = st.columns([1,1,1])
 
-    cols = [col1, col2, col3]
-    col = 0
+    # cols = [col1, col2, col3]
+    # col = 0
     # Step 2: Loop through each sentiment and print the results
     for sentiment, urls in sentiment_bins.items():
-        with cols[col]:
-            st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: </h3>", unsafe_allow_html=True)
-            if urls:
-                words = get_popular_words(sentiment, urls)
-                st.write(f"{words}")
-            else:
-                st.write(f"\nNo URLs for {sentiment} sentiment.")
-        col += 1
+        # with cols[col]:
+        st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: </h3>", unsafe_allow_html=True)
+        if urls:
+            words = get_popular_words(sentiment, urls)
+            st.write(f"{words}")
+        else:
+            st.write(f"\nNo URLs for {sentiment} sentiment.")
+        # col += 1
