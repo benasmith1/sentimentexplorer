@@ -109,8 +109,7 @@ if submit_button:
 
     sentiment_list = []
     completed_tasks = 0
-    total_tasks = len(search_results)
-    
+
     # get sentiments
     if __name__ == '__main__':
         with Pool(7) as p:  # Adjust the number of processes as needed
@@ -118,7 +117,7 @@ if submit_button:
             for result in p.imap_unordered(get_sentiment, search_results):
                 sentiment_list.append(result)
                 completed_tasks += 1  # Update counter
-                progress = min(round((completed_tasks / total_tasks) * 100), 95)
+                progress = min(round((completed_tasks / num_results) * 100), 95)
                 my_bar.progress(min(progress,95), text="Analyzing sentiment of webpages...")
                 progress += round((100/num_results)*7)
 
