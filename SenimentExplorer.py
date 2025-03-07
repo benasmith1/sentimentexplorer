@@ -249,7 +249,7 @@ if submit_button:
     # Step 2: Loop through each sentiment and print the results
     for sentiment, urls in sentiment_bins.items():
         with cols[col]:
-            st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: <\h3>")
+            st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: </h3>")
             if urls:
                 words = get_popular_words(sentiment, urls)
                 st.write(f"{words}")
