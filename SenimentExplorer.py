@@ -22,13 +22,15 @@ from botocore.exceptions import ClientError
 import json5
 from multiprocessing import Pool
 
-import requests
-import time
+import random
 
-# Replace these with your actual API key and Search Engine ID
-GOOGLE_API_KEY = st.secrets["google_api_key"]
-GOOGLE_CX = st.secrets["cx"] #search engine key
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+    "Mozilla/5.0 (X11; Linux x86_64)",
+]
 
+headers = {"User-Agent": random.choice(USER_AGENTS)}
 
 # Connect to OpenAI and Analyze Popular Words
 client = openai.Client(api_key=st.secrets["openaikey"])
@@ -113,34 +115,12 @@ def get_color(query):
         return ["#0ddab2", "#0ffbcc"]  # Default fallback
 
 
-def google_search(query, num_results=10):
-    """Fetch search results using Google's Custom Search API."""
-    url = "https://www.googleapis.com/customsearch/v1"
-    
-    params = {"q": query, "key": GOOGLE_API_KEY, "cx": GOOGLE_CX, "num": num_results, "start": 11}
-
-
-    try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        results = response.json()
-
-        # Extract relevant URLs from results
-        links = [item["link"] for item in results.get("items", [])]
-        return links
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching results: {e}")
-        return []
-
-
-
 if submit_button:
 
     # Search query
     my_bar = st.progress(7, text="Fetching search results...")
 
-    search_results = google_search(query, num_results=num_results)
+    search_results = search(query, num_results=num_results)
 
     progress = 3
 
