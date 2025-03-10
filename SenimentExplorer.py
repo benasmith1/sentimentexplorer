@@ -117,12 +117,8 @@ def google_search(query, num_results=10):
     """Fetch search results using Google's Custom Search API."""
     url = "https://www.googleapis.com/customsearch/v1"
     
-    params = {
-        "q": query,
-        "key": GOOGLE_API_KEY,
-        "cx": GOOGLE_CX,
-        "num": num_results,
-    }
+    params = {"q": query, "key": GOOGLE_API_KEY, "cx": GOOGLE_CX, "num": 10, "start": 11}
+
 
     try:
         response = requests.get(url, params=params)
