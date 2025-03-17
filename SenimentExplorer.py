@@ -1,8 +1,8 @@
 
 # Import Packages 
 # Searching and Parsing 
-#import googlesearch
-from googlesearch import search
+# Import Googlesearch
+from serpapi import GoogleSearch
 from newspaper import Article
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import openai
@@ -20,7 +20,8 @@ import boto3
 from botocore.exceptions import ClientError
 
 import json5
-from multiprocessing import Pool
+#from multiprocessing import Pool
+from multiprocessing.dummy import Pool as ThreadPool
 
 import random
 import warnings
@@ -64,6 +65,23 @@ with st.form("Form entry"):
     query = st.text_input("Search Bar", value="Spotify Wrapped Opinions")
     num_results = st.number_input("Number of search results", min_value=10, max_value=100, value=50)
     submit_button = st.form_submit_button("Search")
+
+def get_search_results(query, num_results):
+    params = {
+        "q": query,
+        "num": num_results,
+        "hl": "en",
+        "gl": "us",
+        "api_key": st.secrets["serpapi_key"]  # Store your API key in Streamlit secrets
+    }
+    
+    search = GoogleSearch(params)
+    results = search.get_dict()
+
+    # Extract URLs from the search results
+    search_results = [result["link"] for result in results.get("organic_results", [])]
+    
+    return search_results
 
 
 def get_sentiment(url):
@@ -131,8 +149,9 @@ if submit_button:
     # Search query
     my_bar = st.progress(7, text="Fetching search results...")
 
-    search_results = search(query, num_results=num_results)
 
+
+    search_results = get_search_results(query, num_results)
     progress = 3
 
     sentiment_list = []
