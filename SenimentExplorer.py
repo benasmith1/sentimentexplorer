@@ -23,6 +23,8 @@ import json5
 from multiprocessing import Pool
 
 import random
+import warnings
+warnings.filterwarnings("ignore", category=SyntaxWarning)
 
 st.set_page_config(
     page_title = "Sentiment Explorer",
@@ -36,7 +38,12 @@ USER_AGENTS = [
     "Mozilla/5.0 (X11; Linux x86_64)",
 ]
 
-headers = {"User-Agent": random.choice(USER_AGENTS)}
+headers = {
+    "User-Agent": random.choice(USER_AGENTS),
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate",
+}
+
 
 # Connect to OpenAI and Analyze Popular Words
 client = openai.Client(api_key=st.secrets["openaikey"])
@@ -53,7 +60,6 @@ st.markdown("""Specify the number of search results you would like to return. Mo
             for 50 results should take approximately 10 seconds.""")
 st.markdown("""Try out the following example to see opinions about Spotify Wrapped! Including the word \"Opinions\" in the search helps avoid returning promotional webpages.
             You might also try \"Netflix Opinions\" or \"Waymo Opinions\"""")
-
 with st.form("Form entry"):
     query = st.text_input("Search Bar", value="Spotify Wrapped Opinions")
     num_results = st.number_input("Number of search results", min_value=10, max_value=100, value=50)
@@ -111,7 +117,6 @@ def get_color(query):
     try:
         response_text = response.choices[0].message.content.strip()
         #st.write(f"Response Text: {response_text}")
-        colors = response_text.split(" ")  # Remove quotes and split into a list
         response_text = json5.loads(response_text)
         if len(response_text) == 2:
             return response_text
