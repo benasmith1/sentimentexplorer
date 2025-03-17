@@ -20,8 +20,7 @@ import boto3
 from botocore.exceptions import ClientError
 
 import json5
-#from multiprocessing import Pool
-from multiprocessing.dummy import Pool as ThreadPool
+from multiprocessing import Pool
 
 import random
 import warnings
@@ -72,7 +71,7 @@ def get_search_results(query, num_results):
         "num": num_results,
         "hl": "en",
         "gl": "us",
-        "api_key": st.secrets["serpapi_key"]  # Store your API key in Streamlit secrets
+        "api_key": st.secrets["serpapi_key"] 
     }
     
     search = GoogleSearch(params)
