@@ -312,7 +312,7 @@ if submit_button:
     # get popular words
     my_bar_2 = st.progress(0, text="Getting popular phrases...")
     progress = 3
-    words_dict = get_popular_words(sentiment_list)
+    words_dict = popular_words(sentiment_list)
    
     for sentiment, words in words_dict.items():
         st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: </h3>", unsafe_allow_html=True)
