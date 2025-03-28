@@ -224,42 +224,6 @@ def make_graph(sentiment_list):
     layout = row(p, sidebar)
     return(layout)
 
-
-def popular_words(sentiment_list):
-     # Step 1: Group URLs by Sentiment
-    sentiment_bins = {"Positive": [], "Negative": [], "Neutral": []}
-
-    for url, sentiment_dict, text in sentiment_list:
-        if sentiment_dict['compound'] >= 0.05:
-            sentiment_bins["Positive"].append(url)
-        elif sentiment_dict['compound'] <= -0.05:
-            sentiment_bins["Negative"].append(url)
-        else:
-            sentiment_bins["Neutral"].append(url)
-
-
-    # col1, col2, col3 = st.columns([1,1,1])
-
-    # cols = [col1, col2, col3]
-    # col = 0
-    # Step 2: Loop through each sentiment and print the results
-
-    words_dict = {}
-    progress = 17
-    for sentiment, urls in sentiment_bins.items():
-        # with cols[col]:
-        if urls:
-            words_dict[sentiment] = f"{get_popular_words(sentiment, urls)}"
-        else:
-            words_dict[sentiment] = f"\nNo URLs for {sentiment} sentiment."
-        my_bar_2.progress(progress, text="Getting popular phrases...")
-        progress += 25
-
-        # col += 1
-    my_bar_2.empty()
-    return(words_dict)
-
-
 # When user presses search
 if submit_button:
 
@@ -312,8 +276,40 @@ if submit_button:
     # get popular words
     my_bar_2 = st.progress(0, text="Getting popular phrases...")
     progress = 3
-    words_dict = popular_words(sentiment_list)
-   
+
+
+    # Step 1: Group URLs by Sentiment
+    sentiment_bins = {"Positive": [], "Negative": [], "Neutral": []}
+
+    for url, sentiment_dict, text in sentiment_list:
+        if sentiment_dict['compound'] >= 0.05:
+            sentiment_bins["Positive"].append(url)
+        elif sentiment_dict['compound'] <= -0.05:
+            sentiment_bins["Negative"].append(url)
+        else:
+            sentiment_bins["Neutral"].append(url)
+
+
+    # col1, col2, col3 = st.columns([1,1,1])
+
+    # cols = [col1, col2, col3]
+    # col = 0
+    # Step 2: Loop through each sentiment and print the results
+
+    words_dict = {}
+    progress =17
+    for sentiment, urls in sentiment_bins.items():
+        # with cols[col]:
+        if urls:
+            words_dict[sentiment] = f"{get_popular_words(sentiment, urls)}"
+        else:
+            words_dict[sentiment] = f"\nNo URLs for {sentiment} sentiment."
+        my_bar_2.progress(progress, text="Getting popular phrases...")
+        progress += 25
+
+        # col += 1
+    my_bar_2.empty()
+
     for sentiment, words in words_dict.items():
         st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: </h3>", unsafe_allow_html=True)
         st.write(f"{words}")
