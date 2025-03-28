@@ -32,20 +32,7 @@ st.set_page_config(
     # layout = "wide"
 )
 
-USER_AGENTS = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
-    "Mozilla/5.0 (X11; Linux x86_64)",
-]
-
-headers = {
-    "User-Agent": random.choice(USER_AGENTS),
-    "Accept-Language": "en-US,en;q=0.9",
-    "Accept-Encoding": "gzip, deflate",
-}
-
-
-# Connect to OpenAI and Analyze Popular Words
+# Connect to OpenAI 
 client = openai.Client(api_key=st.secrets["openaikey"])
 
 st.header("Sentiment Explorer 🔎 😃")
@@ -65,6 +52,7 @@ with st.form("Form entry"):
     num_results = st.number_input("Number of search results", min_value=10, max_value=100, value=50)
     submit_button = st.form_submit_button("Search")
 
+# Search the web with Serp https://serpapi.com/
 def get_search_results(query, num_results):
     params = {
         "q": query,
@@ -82,7 +70,7 @@ def get_search_results(query, num_results):
     
     return search_results
 
-
+# Get Sentiments of webpages with VaderSentiment
 def get_sentiment(url):
     try:
         article = Article(url)
@@ -98,7 +86,7 @@ def get_sentiment(url):
         retval = "Failed"
     return(retval)
 
-    
+# Use Open AI to get popular phrases in the positive/ negative/ neutral webpages
 def get_popular_words(sentiment_name, urls):
     # Ask OpenAI to find popular words from URLs.
     prompt = (
@@ -117,6 +105,7 @@ def get_popular_words(sentiment_name, urls):
     )
     return response.choices[0].message.content.strip()
 
+# Get the color of a brand - this should be improved maybe with a list of popular brands/ color wheel selector that the user can customize the graph with?
 def get_color(query):
     prompt = (
         f"For this query: {query}. There should be a company or product associated with it. "
@@ -142,36 +131,8 @@ def get_color(query):
     except:
         return ["#0ddab2", "#0ffbcc"]  # Default fallback
 
-
-if submit_button:
-
-    # Search query
-    my_bar = st.progress(7, text="Fetching search results...")
-
-
-
-    search_results = get_search_results(query, num_results)
-    progress = 3
-
-    sentiment_list = []
-    completed_tasks = 0
-
-    # get sentiments
-    if __name__ == '__main__':
-        with Pool(7) as p:  # Adjust the number of processes as needed
-            #sentiment_list = p.map(get_sentiment, search_results)
-            for result in p.imap_unordered(get_sentiment, search_results):
-                sentiment_list.append(result)
-                completed_tasks += 1  # Update counter
-                progress = min(round((completed_tasks / num_results) * 100), 95)
-                my_bar.progress(min(progress,95), text="Analyzing sentiment of webpages...")
-                progress += round((100/num_results)*7)
-
-    my_bar.progress(min(progress,95), text="Creating Graph...")
-    sentiment_list = [x for x in sentiment_list if x != "Failed"] #removes fails
-
-
-    colors = get_color(query)
+# Make the sentiment graph
+def make_graph(sentiment_list):
 
     # Extract compound values and URLs
     compounds = [entry[1]['compound'] for entry in sentiment_list]
@@ -261,7 +222,74 @@ if submit_button:
 
     # Layout: Chart + Sidebar
     layout = row(p, sidebar)
+    return(layout)
 
+
+def popular_words(sentiment_list):
+     # Step 1: Group URLs by Sentiment
+    sentiment_bins = {"Positive": [], "Negative": [], "Neutral": []}
+
+    for url, sentiment_dict, text in sentiment_list:
+        if sentiment_dict['compound'] >= 0.05:
+            sentiment_bins["Positive"].append(url)
+        elif sentiment_dict['compound'] <= -0.05:
+            sentiment_bins["Negative"].append(url)
+        else:
+            sentiment_bins["Neutral"].append(url)
+
+
+    # col1, col2, col3 = st.columns([1,1,1])
+
+    # cols = [col1, col2, col3]
+    # col = 0
+    # Step 2: Loop through each sentiment and print the results
+
+    words_dict = {}
+    progress = 17
+    for sentiment, urls in sentiment_bins.items():
+        # with cols[col]:
+        if urls:
+            words_dict[sentiment] = f"{get_popular_words(sentiment, urls)}"
+        else:
+            words_dict[sentiment] = f"\nNo URLs for {sentiment} sentiment."
+        my_bar_2.progress(progress, text="Getting popular phrases...")
+        progress += 25
+
+        # col += 1
+    my_bar_2.empty()
+    return(words_dict)
+
+
+# When user presses search
+if submit_button:
+
+    # progress bar
+    my_bar = st.progress(7, text="Fetching search results...")
+
+    search_results = get_search_results(query, num_results)
+    progress = 3
+
+    sentiment_list = []
+    completed_tasks = 0
+
+    # get sentiments
+    if __name__ == '__main__':
+        with Pool(7) as p:  # Parallel computing yay - Adjust the number of processes as needed 
+            #sentiment_list = p.map(get_sentiment, search_results)
+            for result in p.imap_unordered(get_sentiment, search_results):
+                sentiment_list.append(result)
+                completed_tasks += 1  # Update counter
+                progress = min(round((completed_tasks / num_results) * 100), 95) # for progress bar
+                my_bar.progress(min(progress,95), text="Analyzing sentiment of webpages...") # progress bar!
+                progress += round((100/num_results)*7)
+
+    my_bar.progress(min(progress,95), text="Creating Graph...")
+    sentiment_list = [x for x in sentiment_list if x != "Failed"] #removes fails
+
+
+    # Make graph
+    colors = get_color(query) 
+    layout = make_graph(sentiment_list)
     st.bokeh_chart(layout, use_container_width=True)
 
     my_bar.progress(min(progress,100), text="Creating Graph...")
@@ -284,40 +312,8 @@ if submit_button:
     # get popular words
     my_bar_2 = st.progress(0, text="Getting popular phrases...")
     progress = 3
-
-
-    # Step 1: Group URLs by Sentiment
-    sentiment_bins = {"Positive": [], "Negative": [], "Neutral": []}
-
-    for url, sentiment_dict, text in sentiment_list:
-        if sentiment_dict['compound'] >= 0.05:
-            sentiment_bins["Positive"].append(url)
-        elif sentiment_dict['compound'] <= -0.05:
-            sentiment_bins["Negative"].append(url)
-        else:
-            sentiment_bins["Neutral"].append(url)
-
-
-    # col1, col2, col3 = st.columns([1,1,1])
-
-    # cols = [col1, col2, col3]
-    # col = 0
-    # Step 2: Loop through each sentiment and print the results
-
-    words_dict = {}
-    progress =17
-    for sentiment, urls in sentiment_bins.items():
-        # with cols[col]:
-        if urls:
-            words_dict[sentiment] = f"{get_popular_words(sentiment, urls)}"
-        else:
-            words_dict[sentiment] = f"\nNo URLs for {sentiment} sentiment."
-        my_bar_2.progress(progress, text="Getting popular phrases...")
-        progress += 25
-
-        # col += 1
-    my_bar_2.empty()
-
+    words_dict = get_popular_words(sentiment_list)
+   
     for sentiment, words in words_dict.items():
         st.markdown(f"<h3>Popular phrases for {sentiment} sentiment: </h3>", unsafe_allow_html=True)
         st.write(f"{words}")
