@@ -46,7 +46,7 @@ st.markdown("""
 st.markdown("""Specify the number of search results you would like to return. More results gives more accurate information but takes longer to parse. Searching 
             for 50 results should take approximately 10 seconds.""")
 st.markdown("""Try out the following example to see opinions about Spotify Wrapped! Including the word \"Opinions\" in the search helps avoid returning promotional webpages. 
-            If the brand is less known and you do not expect there to be a large number of webpages, you might omit the word \"Opinions\"
+            If the brand is less known and you do not expect there to be a large number of webpages, you might omit the word \"Opinions.\"
             You might also try \"Netflix Opinions\" or \"Waymo Opinions\"""")
 st.markdown("""Now 7x faster beacuse of parallel computing. Whoohoo! Code can be found <a href="https://github.com/benasmith1/sentimentexplorer">here</a>""", unsafe_allow_html=True)
 with st.form("Form entry"):
