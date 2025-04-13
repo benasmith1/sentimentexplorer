@@ -48,7 +48,7 @@ st.markdown("""Specify the number of search results you would like to return. Mo
 st.markdown("""Try out the following example to see opinions about Spotify Wrapped! Including the word \"Opinions\" in the search helps avoid returning promotional webpages. 
             If the brand is less known and you do not expect there to be a large number of webpages, you might omit the word \"Opinions\"
             You might also try \"Netflix Opinions\" or \"Waymo Opinions\"""")
-st.markdown("""Now 7x faster beacuse of ~parallel computing~ whoohoo! Code can be found [here](%s)" % https://github.com/benasmith1/sentimentexplorer""")
+st.markdown("""Now 7x faster beacuse of ~parallel computing~ whoohoo! Code can be found <a href=https://github.com/benasmith1/sentimentexplorer>here</a>""")
 with st.form("Form entry"):
     query = st.text_input("Search Bar", value="Spotify Wrapped Opinions")
     num_results = st.number_input("Number of search results", min_value=10, max_value=100, value=50)
