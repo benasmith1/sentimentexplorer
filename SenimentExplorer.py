@@ -45,8 +45,10 @@ st.markdown("""
         - Using OpenAI to summarize common likes and dislikes within these webpages  """)
 st.markdown("""Specify the number of search results you would like to return. More results gives more accurate information but takes longer to parse. Searching 
             for 50 results should take approximately 10 seconds.""")
-st.markdown("""Try out the following example to see opinions about Spotify Wrapped! Including the word \"Opinions\" in the search helps avoid returning promotional webpages.
+st.markdown("""Try out the following example to see opinions about Spotify Wrapped! Including the word \"Opinions\" in the search helps avoid returning promotional webpages. 
+            If the brand is less known and you do not expect there to be a large number of webpages, you might omit the word \"Opinions\"
             You might also try \"Netflix Opinions\" or \"Waymo Opinions\"""")
+st.markdown("""Now 7x faster beacuse of ~parallel computing~ whoohoo! Code can be found [here](%s)" % https://github.com/benasmith1/sentimentexplorer""")
 with st.form("Form entry"):
     query = st.text_input("Search Bar", value="Spotify Wrapped Opinions")
     num_results = st.number_input("Number of search results", min_value=10, max_value=100, value=50)
